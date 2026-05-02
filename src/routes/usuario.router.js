@@ -1,11 +1,11 @@
-// import { Router } from 'express';
-// import * as controller from '../controller/user.controller.js'
+import { Router } from 'express';
+import * as C from '../controllers/user.controller.js';
+import autenticar from '../middlewares/auth.middleware.js';
 
-// const routerUser = Router();
+const router = Router();
 
-// // Criar as rotas
-// routerUser.get('/', controller.getAllUsers); // READ all
-// routerUser.get('/:id', controller.getUserById); // READ id
-// routerUser.post('/criar', controller.createUser); // CREATE
+router.get('/perfil', autenticar, C.perfil);
+router.put('/perfil', autenticar, C.atualizarPerfil);
+router.delete('/conta', autenticar, C.desativarConta);
 
-// export default routerUser;
+export default router;

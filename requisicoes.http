@@ -1,0 +1,73 @@
+### Variáveis
+@url = http://localhost:3000
+
+### Testar Cadastro de Usuário (Sucesso)
+POST {{url}}/auth/cadastro
+Content-Type: application/json
+
+{
+  "nome": "Ana Silva",
+  "email": "ana@email.com",
+  "senha": "minhasenha123"
+}
+
+### Testar Cadastro (Erro - Email repetido)
+POST {{url}}/auth/cadastro
+Content-Type: application/json
+
+{
+  "nome": "Outro Nome",
+  "email": "ana@email.com",
+  "senha": "outrasenha123"
+}
+
+### Testar Cadastro (Erro - Faltando campo)
+POST {{url}}/auth/cadastro
+Content-Type: application/json
+
+{
+  "nome": "Sem Email",
+  "senha": "123"
+}
+
+
+
+### Testar Login (Sucesso)
+POST {{url}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "ana@email.com",
+  "senha": "minhasenha123"
+}
+
+### Testar Login (Erro - Senha errada)
+POST {{url}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "ana@email.com",
+  "senha": "senha_errada"
+}
+
+
+
+
+@meuToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tZSI6IkFuYSBTaWx2YSIsImVtYWlsIjoiYW5hQGVtYWlsLmNvbSIsImlhdCI6MTc3Nzc1NjM1MCwiZXhwIjoxNzc3ODQyNzUwfQ.558taTpH9kW18rp7Sl-WGf_iCppRJdPf4A7mhRCPdDE
+
+###Ver Perfil (Rota Protegida)
+GET http://localhost:3000/usuario/perfil
+Authorization: Bearer {{meuToken}}
+
+###Atualizar Nome
+PUT http://localhost:3000/usuario/perfil
+Authorization: Bearer {{meuToken}}
+Content-Type: application/json
+
+{
+  "nome": "Ana Silva Atualizada"
+}
+
+### Desativar a própria conta (DELETE)
+DELETE http://localhost:3000/usuario/conta
+Authorization: Bearer {{meuToken}}

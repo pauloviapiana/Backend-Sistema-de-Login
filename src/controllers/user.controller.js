@@ -1,49 +1,57 @@
-// import { User } from '../models/usuario.model.js';
-// import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
+import Usuario from '../models/usuario.model.js';
 
-// export async function getAllUsers(req, res) {
-//     //Puxando todos os dados da tabela
-//     try {
-//         const allUser = await User.findAll();
-//         console.log(allUser);
-//         res.status(201).json(allUser);
-//     } catch (error) {
-//         res.status(500).json(error);
-//     }
-// }
+export const perfil = async (req, res) => {
+    try {
+        const usuario = await Usuario.findByPk(req.usuario.id, {
+            attributes: { exclude: ['senha'] } // Segurança: nunca traz a senha
+        });
 
-// export async function createUser(req, res) {
-//     try {
-//         const { email, senha, nome } = req.body;
-//         // Convertendo a senha em Hash
-//         const hashSenha = await bcrypt.hash(senha, 10);
+        if (!usuario) return res.status(404).json({ erro: 'Usuário não encontrado' });
 
-//         // Imputando dados no banco de dados
-//         const userCreate = await User.create({
-//             email: email, 
-//             senha: hashSenha, 
-//             nome: nome});
+        return res.json(usuario);
+    } catch (error) {
+        return res.status(500).json({ erro: 'Erro ao buscar perfil' });
+    }
+};
 
-//         // Deletar a senha da RESPOSTA da requisição
-//         const userResponse = userCreate.toJSON();
-//         delete userResponse.senha;
-//         res.status(201).json(userResponse);
+export const atualizarPerfil = async (req, res) => {
+    try {
+        const { nome, email, senha } = req.body;
+        const usuario = await Usuario.findByPk(req.usuario.id);
 
-//     } catch (error) {
-//         res.status(500).json(error);
-//     }
-// }
+        if (!usuario) return res.status(404).json({ erro: 'Usuário não encontrado' });
 
-// export async function getUserById(req, res) {
-//     //Puxando todos os dados da tabela
-//     try {
-//         const userId = await User.findByPk(req.params.id);
-//         if (!userId){
-//             res.status(404).json({erro: "Usuario nao encontrado!"});
-//         }
-//         console.log(userId);
-//         res.status(201).json(userId);
-//     } catch (error) {
-//         res.status(500).json(error);
-//     } 
-// }
+        if (senha) {
+            const novoHash = await bcrypt.hash(senha, 10);
+            usuario.senha = novoHash;
+        }
+
+        if (nome) usuario.nome = nome;
+        if (email) usuario.email = email;
+
+        await usuario.save();
+
+        const usuarioAtualizado = usuario.toJSON();
+        delete usuarioAtualizado.senha;
+
+        return res.json(usuarioAtualizado);
+    } catch (error) {
+        return res.status(500).json({ erro: 'Erro ao atualizar perfil' });
+    }
+};
+
+export const desativarConta = async (req, res) => {
+    try {
+        const usuario = await Usuario.findByPk(req.usuario.id);
+        
+        if (!usuario) return res.status(404).json({ erro: 'Usuário não encontrado' });
+
+        usuario.ativo = false;
+        await usuario.save();
+
+        return res.status(204).send();
+    } catch (error) {
+        return res.status(500).json({ erro: 'Erro ao desativar conta' });
+    }
+};

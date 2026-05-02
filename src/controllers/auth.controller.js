@@ -53,6 +53,10 @@ export const login = async (req, res) => {
             return res.status(401).json({ erro: 'Credenciais inválidas' });
         }
 
+        if (usuario.ativo === false) {
+            return res.status(403).json({ erro: 'Conta desativada. Entre em contato com o suporte.' });
+        }
+
         const senhaValida = await bcrypt.compare(senha, usuario.senha);
 
         if (!senhaValida) {
