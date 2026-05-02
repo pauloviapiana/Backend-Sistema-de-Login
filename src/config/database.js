@@ -21,10 +21,3 @@ const sequelize = new Sequelize(
  );
 
 export default sequelize;
-
-try{
-    await sequelize.authenticate();
-    console.log("Conexão com o Banco estabelecida com sucesso!");
-} catch(error){
-    console.log("Erro ao tentar conexão com o Banco: ", error);   
-}
