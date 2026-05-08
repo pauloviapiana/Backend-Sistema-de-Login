@@ -6,9 +6,13 @@ import sequelize from './src/config/database.js';
 import './src/models/usuario.model.js';
 import authRouter from "./src/routes/auth.router.js";
 import usuarioRouter from "./src/routes/usuario.router.js";
+import routerStudent from './src/routes/student.controller.js';
 import { helmetConfig } from './src/config/helmet.js';
 import { corsConfig } from './src/config/cors.js';
 import { limitadorGlobal } from './src/config/rateLimit.js';
+
+import Turma from './src/models/class.model.js';
+import { Aluno } from './src/models/student.model.js';
 
 const app = express();
 
