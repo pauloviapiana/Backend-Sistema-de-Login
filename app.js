@@ -1,24 +1,17 @@
 import 'dotenv/config';
 import express from 'express';
-import cors from "cors";
 
 import sequelize from './src/config/database.js';
-import './src/models/usuario.model.js';
+import './src/models/produto.model.js';
 import authRouter from "./src/routes/auth.router.js";
-import usuarioRouter from "./src/routes/usuario.router.js";
-import { helmetConfig } from './src/config/helmet.js';
-import { corsConfig } from './src/config/cors.js';
-import { limitadorGlobal } from './src/config/rateLimit.js';
+import produtoRouter from "./src/routes/produto.router.js";
 
 const app = express();
 
 app.use(express.json());
-app.use(cors(corsConfig));
-app.use(helmetConfig);
-app.use(limitadorGlobal);
 
 app.use("/auth", authRouter);
-app.use("/usuario", usuarioRouter);
+app.use("/produto", produtoRouter);
 
 sequelize.sync({ alter: true }).then(() => {
   console.log('Banco de dados sincronizado');

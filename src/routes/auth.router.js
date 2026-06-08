@@ -1,10 +1,8 @@
 import { Router } from 'express';
-import { cadastrar, login } from '../controllers/auth.controller.js';
-import { limitadorCadastro, limitadorLogin } from '../config/rateLimit.js';
+import { cadastrar } from '../controllers/auth.controller.js';
 
 const router = Router();
 
-router.post('/cadastro', limitadorCadastro, cadastrar);
-router.post('/login', limitadorLogin, login)
+router.post('/cadastro', cadastrar);
 
 export default router;  
