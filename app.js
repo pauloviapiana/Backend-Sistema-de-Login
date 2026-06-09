@@ -16,7 +16,7 @@ app.use("/produto", produtoRouter);
 sequelize.sync({ alter: true }).then(() => {
   console.log('Banco de dados sincronizado');
   app.listen(process.env.PORT, () =>
-    console.log(`Servidor rodando na porta ${process.env.PORT}`)
+    console.log(`Servidor rodando na porta ${process.env.API_PORT}`)
   );
 }).catch(error => {
   console.error('Erro ao sincronizar o banco de dados:', error);
