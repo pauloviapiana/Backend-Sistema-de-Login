@@ -26,7 +26,7 @@ export const cadastrar = async (req, res) => {
             id: novoProduto.id,
             nome: novoProduto.nome,
             categoria: novoProduto.categoria,
-            createdAt: novoUsuario.createdAt
+            createdAt: novoProduto.createdAt
         });
 
     } catch (error) {
