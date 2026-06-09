@@ -13,6 +13,19 @@ export const produto = async (req, res) => {
     }
 };
 
+export const todosProduto = async (req, res) => {
+    try {
+        const produto = await Produto.findAll(req.produto, {
+        });
+
+        if (!produto) return res.status(404).json({ erro: 'Produto não encontrado' });
+
+        return res.json(produto);
+    } catch (error) {
+        return res.status(500).json({ erro: 'Erro ao buscar produto' });
+    }
+};
+
 export const atualizarProduto = async (req, res) => {
     try {
         const { nome, categoria, quantidade, valor_unitario } = req.body;

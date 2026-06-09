@@ -5,5 +5,6 @@ const router = Router();
 
 router.get('/produto', C.produto);
 router.put('/produto', C.atualizarProduto);
+router.get('/todos', C.todosProduto);
 
 export default router;
